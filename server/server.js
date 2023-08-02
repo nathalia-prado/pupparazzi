@@ -1,8 +1,9 @@
 import * as Path from 'node:path'
 // import * as URL from 'node:url'
 
-import express from 'express'
+import express, { Router } from 'express'
 import hbs from 'express-handlebars'
+import * as fsPromises from 'node:fs/promises'
 
 
 const server = express()
@@ -18,8 +19,19 @@ server.set('view engine', 'hbs')
 server.set('views', Path.resolve('server/views'))
 
 // Your routes/router(s) should go here
-server.get('/', (req, res) => {
-    res.send('<h1>Pupparazi</h1>')
+
+server.get('/', async (req, res) => {
+    const fileContent = await readText('server/data/data.json')
+    const puppies = JSON.parse(fileContent)
+    res.render('home', puppies)
 })
+
+export async function readText(pathToFile) {
+    try {
+        return fsPromises.readFile(pathToFile, 'utf-8')
+    } catch(e) {
+        console.error(e.message)
+    }    
+}
 
 export default server
