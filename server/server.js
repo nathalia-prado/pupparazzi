@@ -1,9 +1,10 @@
 import * as Path from 'node:path'
 // import * as URL from 'node:url'
 
-import express, { Router } from 'express'
+import express from 'express'
 import hbs from 'express-handlebars'
-import * as fsPromises from 'node:fs/promises'
+import routes from './routes.js'
+import { readText } from './utils/fsUtils.js'
 
 
 const server = express()
@@ -26,12 +27,8 @@ server.get('/', async (req, res) => {
     res.render('home', puppies)
 })
 
-export async function readText(pathToFile) {
-    try {
-        return fsPromises.readFile(pathToFile, 'utf-8')
-    } catch(e) {
-        console.error(e.message)
-    }    
-}
+server.use('/puppies', routes)
+
+
 
 export default server
