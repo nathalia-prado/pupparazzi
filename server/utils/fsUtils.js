@@ -7,3 +7,11 @@ export async function readText(pathToFile) {
         console.error(e.message)
     }    
 }
+
+export function writeText(pathToFile, contentToWrite) {
+    try {
+        return fsPromises.writeFile(pathToFile, contentToWrite)
+    } catch(e) {
+        console.error(e.message)
+    }
+}
