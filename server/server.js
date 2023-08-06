@@ -22,8 +22,7 @@ server.set('views', Path.resolve('server/views'))
 // Your routes/router(s) should go here
 
 server.get('/', async (req, res) => {
-    const fileContent = await readText()
-    const puppies = JSON.parse(fileContent)
+    const puppies = await readText()
     res.render('home', puppies)
 })
 
