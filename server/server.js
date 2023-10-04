@@ -3,6 +3,8 @@ import * as Path from 'node:path'
 
 import express from 'express'
 import hbs from 'express-handlebars'
+import routes from './routes.js'
+import { readText } from './utils/fsUtils.js'
 
 
 const server = express()
@@ -18,5 +20,14 @@ server.set('view engine', 'hbs')
 server.set('views', Path.resolve('server/views'))
 
 // Your routes/router(s) should go here
+
+server.get('/', async (req, res) => {
+    const puppies = await readText()
+    res.render('home', puppies)
+})
+
+server.use('/puppies', routes)
+
+
 
 export default server
